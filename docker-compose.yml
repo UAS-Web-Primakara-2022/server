@@ -1,0 +1,22 @@
+# Use postgres/example user/password credentials
+version: "3.2"
+
+# Docker compose for postgres and adminer
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      # Automaticaly user dan db bernama postgres
+    volumes:
+      - /volume:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080

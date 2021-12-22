@@ -11,7 +11,7 @@
     "compile": "npm run clean && tsc",
     "prod": "tsc && node dist/bin/http.js"
   },
-  "author": "Dipadana Putu, dkk",
+  "author": "Dipadana Putu",
   "license": "ISC",
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
@@ -25,6 +25,7 @@
     "typescript": "^4.5.4"
   },
   "dependencies": {
+    "@prisma/client": "^3.7.0",
     "axios": "^0.24.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",

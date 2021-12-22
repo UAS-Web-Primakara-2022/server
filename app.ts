@@ -1,6 +1,6 @@
 if (process.env.NODE_ENV === "development") require("dotenv").config();
 
-import express, { Application, Request, Response, NextFunction } from "express";
+import express, { Application } from "express";
 import cors from "cors";
 import morgan from "morgan";
 import route from "./routes";

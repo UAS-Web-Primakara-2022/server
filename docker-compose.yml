@@ -9,7 +9,7 @@ services:
     restart: always
     environment:
       - POSTGRES_PASSWORD=postgres
-      # Automaticaly user dan db bernama postgres
+      # Automaticaly user and db named postgres
     volumes:
       - /volume:/var/lib/postgresql/data
     ports:

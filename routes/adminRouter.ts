@@ -3,8 +3,8 @@ import AdminController from "../controllers/adminControllers";
 
 const router = Router();
 
-router.get("/", AdminController.getAllUser);
+router.get("/", AdminController.getAllAdmin);
+router.post("/register", AdminController.register);
 // router.post("/login", userController.login);
-// router.post("/register", userController.register);
 
 export default router;

@@ -8,8 +8,39 @@ generator client {
 }
 
 model Admin {
-  nidn      Int       @id
-  name      String
-  email     String    @unique
-  password  String
+  nidn              Int             @id
+  name              String
+  email             String          @unique
+  password          String
+}
+
+model Mahasiswa {
+  nim               Int             @id
+  name              String
+  email             String          @unique
+  password          String
+  angkatan          Int?
+  gender            String?
+  tak               TAK[]
+}
+
+
+model TAK {
+  id                String          @id @default(uuid())
+  mahasiswa         Mahasiswa       @relation(fields: [mahasiswaNIM], references: [nim])
+  mahasiswaNIM      Int
+  name              String
+  image             String?
+  tingkatan         Tingkatan?
+  point_TAK         Int             @default(0)
+  verifed_status    Boolean         @default(false)
+}
+
+enum Tingkatan {
+  KAMPUS
+  KOTA
+  KABUPATEN
+  PROVINSI
+  NASIONAL
+  INTERNASIONAL
 }

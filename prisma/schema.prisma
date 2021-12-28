@@ -21,11 +21,11 @@ model Mahasiswa {
   password          String
   angkatan          Int?
   gender            String?
-  tak               TAK[]
+  tak               Tak[]
 }
 
 
-model TAK {
+model Tak {
   id                String          @id @default(uuid())
   mahasiswa         Mahasiswa       @relation(fields: [mahasiswaNIM], references: [nim])
   mahasiswaNIM      Int

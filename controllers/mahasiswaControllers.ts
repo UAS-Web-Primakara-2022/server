@@ -7,7 +7,18 @@ const prisma = new PrismaClient();
 export default class MahasiswaController {
   static async getAllMahasiswa(req: Request, res: Response) {
     const mahasiswa = await prisma.mahasiswa.findMany({
-      select: { nim: true, name: true, email: true },
+      select: {
+        nim: true,
+        name: true,
+        email: true,
+        angkatan: true,
+        gender: true,
+        tak: {
+          select: {
+            id: true,
+          },
+        },
+      },
     });
     res.status(200).json(mahasiswa);
   }

@@ -4,6 +4,7 @@ import MahasiswaController from "../controllers/mahasiswaControllers";
 const router = Router();
 
 router.get("/", MahasiswaController.getAllMahasiswa);
+router.get("/:nim", MahasiswaController.getDetailMahasiswa);
 router.post("/register", MahasiswaController.registerMahasiswa);
 router.post("/login", MahasiswaController.loginMahasiswa);
 // router.patch("/pass/:nim", MahasiswaController.updateMahasiwaPassword);

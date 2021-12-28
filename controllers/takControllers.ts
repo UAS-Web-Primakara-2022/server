@@ -4,7 +4,13 @@ const prisma = new PrismaClient();
 
 export default class TAKControllers {
   static async getAllTAK(req: Request, res: Response) {
-    const tak = await prisma.tak.findMany();
+    const { status } = req.query;
+
+    const tak = await prisma.tak.findMany({
+      where: {
+        verifed_status: status === "true" ? true : false,
+      },
+    });
     res.status(200).json(tak);
   }
 
@@ -61,8 +67,28 @@ export default class TAKControllers {
       });
 
       if (tak) {
-        res.status(201).json({ message: "Update TAK created successfully!" });
+        res.status(200).json({ message: "Update TAK created successfully!" });
       }
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async validateTAK(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { name, tingkatan, pointTak, status } = req.body;
+      const { id } = req.params;
+
+      const tak = await prisma.tak.update({
+        where: { id },
+        data: {
+          name,
+          tingkatan,
+          point_TAK: pointTak,
+          verifed_status: status,
+        },
+      });
+      if (tak) res.status(200).json({ message: "TAK validated!" });
     } catch (err) {
       next(err);
     }

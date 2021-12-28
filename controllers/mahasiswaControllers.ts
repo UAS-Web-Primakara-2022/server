@@ -23,6 +23,33 @@ export default class MahasiswaController {
     res.status(200).json(mahasiswa);
   }
 
+  static async getDetailMahasiswa(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { nim } = req.params;
+
+      const mahasiswa = await prisma.mahasiswa.findUnique({
+        where: {
+          nim: Number(nim),
+        },
+        select: {
+          nim: true,
+          name: true,
+          email: true,
+          angkatan: true,
+          gender: true,
+          tak: true,
+        },
+      });
+      if (mahasiswa) res.status(200).json(mahasiswa);
+    } catch (err) {
+      next(err);
+    }
+  }
+
   static async registerMahasiswa(
     req: Request,
     res: Response,

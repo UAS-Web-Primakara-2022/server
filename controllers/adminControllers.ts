@@ -60,6 +60,7 @@ export default class AdminController {
 
           res.status(200).json({
             message: `Admin ${adminFound.name} logged in successfully!`,
+            role: "admin",
             token: generateToken(dataAdminToken),
           });
         } else {

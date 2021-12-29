@@ -89,10 +89,12 @@ export default class MahasiswaController {
         if (decodeHash(password, mahasiswaFound.password)) {
           res.status(200).json({
             message: `Mahasiswa ${mahasiswaFound.name} logged in successfully!`,
+            role: "mahasiswa",
             token: generateToken({
               nidn: mahasiswaFound.nim,
               name: mahasiswaFound.name,
               email: mahasiswaFound.email,
+              role: "mahasiswa",
             }),
           });
         } else {

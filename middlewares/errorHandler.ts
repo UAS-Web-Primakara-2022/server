@@ -21,12 +21,11 @@ const errorHandling = (
   console.log(err);
   let key: any;
 
-  // default error
+  // Default error message and status code
   const status = err.status || 500;
   const message = err.message || "Internal Server Error";
 
   if (err.name === "ValidationError") {
-    // error validation
     const errors = [];
     for (key in err.errors) {
       errors.push(err.errors[key].message);

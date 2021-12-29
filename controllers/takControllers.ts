@@ -14,11 +14,20 @@ export default class TAKControllers {
     res.status(200).json(tak);
   }
 
-  static async getDetailTAK(req: Request, res: Response) {
-    const tak = await prisma.tak.findUnique({
-      where: { id: req.params.id },
-    });
-    res.status(200).json(tak);
+  static async getDetailTAK(req: Request, res: Response, next: NextFunction) {
+    try {
+      const tak = await prisma.tak.findUnique({
+        where: { id: req.params.id },
+      });
+
+      if (tak) {
+        res.status(200).json(tak);
+      } else {
+        throw { status: 404, message: `TAK not found` };
+      }
+    } catch (err) {
+      next(err);
+    }
   }
 
   static async createTAK(req: Request, res: Response, next: NextFunction) {
@@ -89,6 +98,27 @@ export default class TAKControllers {
         },
       });
       if (tak) res.status(200).json({ message: "TAK validated!" });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async deleteTAK(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+
+      const takFound = await prisma.tak.findUnique({
+        where: { id },
+      });
+
+      if (!takFound?.verifed_status) {
+        const tak = await prisma.tak.delete({
+          where: { id },
+        });
+        if (tak) res.status(200).json({ message: `TAK deleted successfully!` });
+      } else if (takFound?.verifed_status) {
+        throw { status: 400, message: `Cannot delete validated TAK` };
+      }
     } catch (err) {
       next(err);
     }

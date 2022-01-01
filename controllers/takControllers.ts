@@ -1,6 +1,11 @@
 import { Request, Response, NextFunction } from "express";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Tak } from "@prisma/client";
+import { s3 } from "../config/awsSDKS3";
 const prisma = new PrismaClient();
+
+interface IRequest extends Request {
+  multerS3?: Express.MulterS3.File;
+}
 
 export default class TAKControllers {
   static async getAllTAK(req: Request, res: Response) {
@@ -30,25 +35,29 @@ export default class TAKControllers {
     }
   }
 
-  static async createTAK(req: Request, res: Response, next: NextFunction) {
+  static async createTAK(req: IRequest, res: Response, next: NextFunction) {
     try {
       const { nim, name, tingkatan } = req.body;
 
       const mahasiswa = await prisma.mahasiswa.findUnique({
-        where: { nim },
+        where: { nim: Number(nim) },
       });
+
+      if (!req.file) throw { status: 500, message: "File missing" };
+
+      // Get multer-s3's type definitions
+      // https://stackoverflow.com/questions/65811416/how-to-use-multer-s3s-type-definition-for-req-file-rather-than-multers
+      req.multerS3 = req.file as Express.MulterS3.File;
 
       if (mahasiswa?.nim) {
         const tak = await prisma.tak.create({
           data: {
             name,
-            mahasiswaNIM: nim,
-            image:
-              "https://balitbangda.kukarkab.go.id/wp-content/uploads/2020/12/sertifikat-IDSD_1017x768.jpg",
+            mahasiswaNIM: Number(nim),
+            image: req.multerS3.location,
             tingkatan,
           },
         });
-
         if (tak) res.status(201).json({ message: "TAK created successfully!" });
       } else {
         throw {
@@ -112,15 +121,33 @@ export default class TAKControllers {
       });
 
       if (!takFound?.verifed_status) {
+        // Delete image from S3
+        s3.deleteObject({
+          Bucket: process.env.AWS_BUCKET ?? "",
+          Key: TAKControllers.getImageNameS3(takFound),
+        });
+
+        // Delete TAK from database
         const tak = await prisma.tak.delete({
           where: { id },
         });
+
         if (tak) res.status(200).json({ message: `TAK deleted successfully!` });
       } else if (takFound?.verifed_status) {
         throw { status: 400, message: `Cannot delete validated TAK` };
       }
     } catch (err) {
       next(err);
+    }
+  }
+
+  private static getImageNameS3(tak: Tak | null): string {
+    if (tak) {
+      const datas = tak?.image?.split("amazonaws.com/");
+      const fileKey = datas?.pop() ?? "";
+      return fileKey;
+    } else {
+      throw new Error("Something went wrong");
     }
   }
 }

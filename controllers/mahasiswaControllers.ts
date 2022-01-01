@@ -16,6 +16,8 @@ export default class MahasiswaController {
         tak: {
           select: {
             id: true,
+            point_TAK: true,
+            verifed_status: true,
           },
         },
       },

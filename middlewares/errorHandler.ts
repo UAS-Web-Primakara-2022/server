@@ -17,7 +17,6 @@ const errorHandling = (
   res: Response,
   next: NextFunction
 ) => {
-  console.log("masuk error");
   console.log(err);
   let key: any;
 

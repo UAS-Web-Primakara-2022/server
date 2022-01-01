@@ -4,12 +4,6 @@ import { generateToken } from "../helpers/jwt";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-export interface AdminToken {
-  nidn: number;
-  name: string;
-  email: string;
-  role: "admin";
-}
 export default class AdminController {
   static async getAllAdmin(req: Request, res: Response) {
     const admin = await prisma.admin.findMany({
@@ -51,17 +45,15 @@ export default class AdminController {
 
       if (adminFound) {
         if (decodeHash(password, adminFound.password)) {
-          const dataAdminToken: AdminToken = {
-            nidn: adminFound.nidn,
-            name: adminFound.name,
-            email: adminFound.email,
-            role: "admin",
-          };
-
           res.status(200).json({
             message: `Admin ${adminFound.name} logged in successfully!`,
             role: "admin",
-            token: generateToken(dataAdminToken),
+            token: generateToken({
+              nidn: adminFound.nidn,
+              name: adminFound.name,
+              email: adminFound.email,
+              role: "admin",
+            }),
           });
         } else {
           res.status(401).json({ message: "Invalid email or password!" });

@@ -1,11 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { PrismaClient, Tak } from "@prisma/client";
 import { s3 } from "../config/awsSDKS3";
+import { IRequest } from "../interface/CustomInterface";
 const prisma = new PrismaClient();
-
-interface IRequest extends Request {
-  multerS3?: Express.MulterS3.File;
-}
 
 export default class TAKControllers {
   static async getAllTAK(req: Request, res: Response) {

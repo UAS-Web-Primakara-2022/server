@@ -7,7 +7,10 @@ import takRouter from "./takRouter";
 const router = Router();
 
 router.get("/", (req: Request, res: Response, next: NextFunction) => {
-  res.status(200).json({ message: "Server Connected" });
+  res.status(200).json({
+    message: "Server Connected",
+    documentation: "https://documenter.getpostman.com/view/11059100/UVRHiiaF",
+  });
 });
 
 router.use("/admin", adminRouter);

@@ -104,5 +104,5 @@ sudo npm install -g pm2
 npm run prod
 ```
 
-7. Lalu setting NGINX
+7. (Optional) Lalu setting NGINX
    [Configure NGINX](https://nothinux.id/reverse-proxy-aplikasi-node-js-dengan-nginx/)

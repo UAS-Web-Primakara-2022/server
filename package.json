@@ -5,12 +5,10 @@
   "main": "app.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "tsc": "tsc",
     "dev": "NODE_ENV=development nodemon ./app.ts",
-    "dev2": "NODE_ENV=development ts-node-dev --respawn --transpile-only --debug ./app.ts",
     "clean": "rm -rf dist",
     "compile": "npm run clean && tsc",
-    "prod": "tsc && node dist/bin/http.js"
+    "prod": "tsc && node dist/app.js"
   },
   "author": "Dipadana Putu",
   "license": "ISC",
@@ -27,13 +25,11 @@
     "dotenv": "^10.0.0",
     "nodemon": "^2.0.15",
     "ts-node": "^10.4.0",
-    "ts-node-dev": "^1.1.8",
     "typescript": "^4.5.4"
   },
   "dependencies": {
     "@prisma/client": "^3.7.0",
     "aws-sdk": "^2.1048.0",
-    "axios": "^0.24.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "express": "^4.17.2",

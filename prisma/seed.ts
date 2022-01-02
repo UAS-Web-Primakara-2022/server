@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 const adminSeed: Prisma.AdminCreateInput = {
   nidn: 0,
-  name: "master",
+  name: "Master",
   email: "master@mail.com",
   password: generateHash("master"),
 };

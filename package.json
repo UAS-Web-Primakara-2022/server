@@ -8,7 +8,7 @@
     "dev": "NODE_ENV=development nodemon ./app.ts",
     "clean": "rm -rf dist",
     "compile": "npm run clean && tsc",
-    "prod": "tsc && node dist/app.js"
+    "prod": "tsc && pm2 start dist/app.js"
   },
   "author": "Dipadana Putu",
   "license": "ISC",

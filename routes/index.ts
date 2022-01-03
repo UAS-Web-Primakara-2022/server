@@ -10,6 +10,7 @@ router.get("/", (req: Request, res: Response, next: NextFunction) => {
   res.status(200).json({
     message: "Server Connected",
     documentation: "https://documenter.getpostman.com/view/11059100/UVRHiiaF",
+    github: "https://github.com/UAS-Web-Primakara-2022/server",
   });
 });
 

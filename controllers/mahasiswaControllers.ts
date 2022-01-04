@@ -92,8 +92,11 @@ export default class MahasiswaController {
           res.status(200).json({
             message: `Mahasiswa ${mahasiswaFound.name} logged in successfully!`,
             role: "mahasiswa",
+            nim: mahasiswaFound.nim,
+            name: mahasiswaFound.name,
+            email: mahasiswaFound.email,
             token: generateToken({
-              nidn: mahasiswaFound.nim,
+              nim: mahasiswaFound.nim,
               name: mahasiswaFound.name,
               email: mahasiswaFound.email,
               role: "mahasiswa",

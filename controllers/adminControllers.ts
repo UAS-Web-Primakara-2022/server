@@ -48,6 +48,9 @@ export default class AdminController {
           res.status(200).json({
             message: `Admin ${adminFound.name} logged in successfully!`,
             role: "admin",
+            nidn: adminFound.nidn,
+            name: adminFound.name,
+            email: adminFound.email,
             token: generateToken({
               nidn: adminFound.nidn,
               name: adminFound.name,

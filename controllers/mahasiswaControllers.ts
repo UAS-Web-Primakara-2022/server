@@ -13,6 +13,8 @@ export default class MahasiswaController {
         email: true,
         angkatan: true,
         gender: true,
+        prodi: true,
+        birth_date: true,
         tak: {
           select: {
             id: true,
@@ -58,7 +60,8 @@ export default class MahasiswaController {
     next: NextFunction
   ) {
     try {
-      const { nim, name, email, password } = req.body;
+      const { nim, name, email, password, angkatan, gender, prodi, birthDate } =
+        req.body;
 
       const hashPass = generateHash(password);
 
@@ -68,6 +71,10 @@ export default class MahasiswaController {
           name,
           email,
           password: hashPass,
+          angkatan,
+          gender,
+          prodi,
+          birth_date: new Date(birthDate),
         },
       });
 

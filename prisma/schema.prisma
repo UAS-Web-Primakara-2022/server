@@ -12,6 +12,7 @@ model Admin {
   name              String
   email             String          @unique
   password          String
+  created_at        DateTime        @default(now())
 }
 
 model Mahasiswa {
@@ -20,8 +21,11 @@ model Mahasiswa {
   email             String          @unique
   password          String
   angkatan          Int?
-  gender            String?
+  gender            Gender?
   tak               Tak[]
+  prodi             Prodi?
+  birth_date        DateTime?
+  created_at        DateTime        @default(now())
 }
 
 
@@ -34,6 +38,7 @@ model Tak {
   tingkatan         Tingkatan?
   point_TAK         Int             @default(0)
   verifed_status    Boolean         @default(false)
+  created_at        DateTime        @default(now())
 }
 
 enum Tingkatan {
@@ -43,4 +48,15 @@ enum Tingkatan {
   PROVINSI
   NASIONAL
   INTERNASIONAL
+}
+
+enum Prodi {
+  SI
+  IF
+  SIA
+}
+
+enum Gender {
+  PRIA
+  WANITA
 }

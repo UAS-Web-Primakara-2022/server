@@ -45,6 +45,8 @@ export default class MahasiswaController {
           email: true,
           angkatan: true,
           gender: true,
+          prodi: true,
+          birth_date: true,
           tak: true,
         },
       });

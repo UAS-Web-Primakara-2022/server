@@ -1,28 +1,29 @@
 import { Request, Response, NextFunction } from "express";
 import { generateHash, decodeHash } from "../helpers/bycrpt";
 import { generateToken } from "../helpers/jwt";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export default class MahasiswaController {
   static async getAllMahasiswa(req: Request, res: Response) {
-    const mahasiswa = await prisma.mahasiswa.findMany({
-      select: {
-        nim: true,
-        name: true,
-        email: true,
-        angkatan: true,
-        gender: true,
-        prodi: true,
-        birth_date: true,
-        tak: {
-          select: {
-            id: true,
-            point_TAK: true,
-            verifed_status: true,
-          },
+    const selectMahasiswa = Prisma.validator<Prisma.MahasiswaSelect>()({
+      nim: true,
+      name: true,
+      email: true,
+      angkatan: true,
+      gender: true,
+      prodi: true,
+      birth_date: true,
+      tak: {
+        select: {
+          id: true,
+          point_TAK: true,
+          verifed_status: true,
         },
       },
+    });
+    const mahasiswa = await prisma.mahasiswa.findMany({
+      select: selectMahasiswa,
     });
     res.status(200).json(mahasiswa);
   }
@@ -68,7 +69,7 @@ export default class MahasiswaController {
       const hashPass = generateHash(password);
 
       const mahasiswa = await prisma.mahasiswa.create({
-        data: {
+        data: Prisma.validator<Prisma.MahasiswaCreateInput>()({
           nim,
           name,
           email,
@@ -77,7 +78,7 @@ export default class MahasiswaController {
           gender,
           prodi,
           birth_date: new Date(birthDate),
-        },
+        }),
       });
 
       res.status(201).json({
